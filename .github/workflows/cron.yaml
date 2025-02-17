@@ -12,8 +12,7 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: ${{ github.head_ref }}
-      - run: |
-          echo '${{ toJson(secrets) }}' | jq -r 'to_entries | map("\(.key)=\(.value)") | .[]' > .env
+      - run: echo '${{ toJson(secrets) }}' | jq -r 'to_entries | map("\(.key)=\(.value)") | .[]' > .env
       - uses: pnpm/action-setup@v4
       - uses: actions/setup-node@v4
         with:

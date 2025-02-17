@@ -10,7 +10,7 @@ import { webhookClient } from '#apple/webhook'
 const baseUrl = new URL('https://jobs.apple.com')
 const serachUrl = new URL('/en-us/search', baseUrl)
 const params = new URLSearchParams({
-  location: 'united-states-USA+japan-JPNC',
+  location: 'united-states-USA japan-JPNC',
   search: 'Software',
   sort: 'newest'
 })
