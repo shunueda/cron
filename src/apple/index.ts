@@ -10,22 +10,20 @@ import { webhookClient } from '#apple/webhook'
 const baseUrl = new URL('https://jobs.apple.com')
 const serachUrl = new URL('/en-us/search', baseUrl)
 const params = new URLSearchParams({
-  location: 'united-states-USA japan-JPNC',
+  location: 'united-states-USA+japan-JPNC',
   search: 'Software',
   sort: 'newest'
 })
 
 const matchedJobs: MatchedJob[] = []
 
-let end = false
-for (let i = 1; !end; i++) {
+for (let i = 1, end = false; !end; i++) {
   serachUrl.search = params.toString()
   serachUrl.searchParams.set('page', i.toString())
 
   const res = await fetch(serachUrl)
   const html = await res.text()
-  const { document } = parseHTML(html)
-  const jobs = document.querySelectorAll<HTMLAnchorElement>(
+  const jobs = parseHTML(html).document.querySelectorAll<HTMLAnchorElement>(
     '.table--advanced-search__title'
   )
   for (const job of jobs) {
@@ -60,7 +58,9 @@ if (matchedJobs.length) {
       .trim(),
     username: name
   })
-
   storage.apple.checkpoint = matchedJobs[0].id
-  await writeFile('assets/storage.json', JSON.stringify(storage, null, 2))
+} else {
+  console.log('No new jobs found')
 }
+
+await writeFile('assets/storage.json', JSON.stringify(storage, null, 2))
