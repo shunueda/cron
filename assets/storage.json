@@ -1,0 +1,15 @@
+{
+  "apple": {
+    "keywords": {
+      "title": {
+        "include": ["Software"],
+        "exclude": ["Senior", "Sr", "Manager"]
+      },
+      "description": {
+        "include": [],
+        "exclude": ["years"]
+      }
+    },
+    "checkpoint": "200582499"
+  }
+}
