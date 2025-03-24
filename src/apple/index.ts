@@ -27,6 +27,7 @@ for (let i = 1, end = false; !end; i++) {
     '.table--advanced-search__title'
   )
   for (const job of jobs) {
+    console.log(job.textContent)
     if (!checkKeywords(job.textContent, apple.keywords.title)) {
       continue
     }
