@@ -3,13 +3,13 @@
     "keywords": {
       "title": {
         "include": ["Software"],
-        "exclude": ["Senior", "Sr", "Manager"]
+        "exclude": ["Senior", "Sr", "Manager", "QA", "Quality", "Test"]
       },
       "description": {
         "include": [],
         "exclude": ["years"]
       }
     },
-    "checkpoint": "200594841"
+    "checkpoint": "200597983"
   }
 }
