@@ -10,7 +10,7 @@ import { webhookClient } from '#apple/webhook'
 const baseUrl = new URL('https://jobs.apple.com')
 const serachUrl = new URL('/en-us/search', baseUrl)
 const params = new URLSearchParams({
-  location: 'united-states-USA japan-JPNC',
+  location: 'united-states-USA',
   search: 'Software',
   sort: 'newest'
 })
@@ -23,9 +23,14 @@ for (let i = 1, end = false; !end; i++) {
 
   const res = await fetch(serachUrl)
   const html = await res.text()
-  const jobs = parseHTML(html).document.querySelectorAll<HTMLAnchorElement>(
-    '.table--advanced-search__title'
+  const jobs = (
+    parseHTML(html)
+      .document.getElementById('search-job-list')
+      ?.querySelectorAll<HTMLAnchorElement>('a') || []
   )
+    .values()
+    .filter(job => job.href.startsWith('/en-us/details/'))
+    .toArray()
   for (const job of jobs) {
     if (!checkKeywords(job.textContent, apple.keywords.title)) {
       continue
