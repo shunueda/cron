@@ -1,8 +1,5 @@
 name: Cron
-on:
-  workflow_dispatch:
-  schedule:
-    - cron: '0 */2 * * *'
+
 jobs:
   main:
     runs-on: ubuntu-latest
