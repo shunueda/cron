@@ -1,5 +1,5 @@
-export interface MatchedJob {
-  readonly id: string
+export interface Job {
+  readonly id: number
   readonly title: string
   readonly url: URL
 }

@@ -16,8 +16,8 @@ export function checkKeywords(
   )
 }
 
-export async function fetchHtml(url: URL): Promise<Window> {
+export async function fetchHtmlDocument(url: URL): Promise<Document> {
   const res = await fetch(url)
   const html = await res.text()
-  return parseHTML(html)
+  return parseHTML(html).document
 }

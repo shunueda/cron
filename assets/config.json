@@ -9,7 +9,6 @@
         "include": [],
         "exclude": ["years"]
       }
-    },
-    "checkpoint": "200598206"
+    }
   }
 }
