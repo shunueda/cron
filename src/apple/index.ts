@@ -1,5 +1,6 @@
 import { writeFile } from 'node:fs/promises'
 import { EOL } from 'node:os'
+import { setTimeout } from 'node:timers/promises'
 import seenIds from '~/assets/apple-seen-ids.json'
 import { apple } from '~/assets/config.json'
 import { name } from '~/package.json'
@@ -7,8 +8,8 @@ import type { Job } from '#apple/types'
 import { checkKeywords, fetchHtmlDocument } from '#apple/util'
 import { webhookClient } from '#webhook'
 
-const seenIdsSet = new Set<number>(seenIds)
-const updatedSeenIdsSet = new Set<number>(seenIds)
+const seenIdsSet = new Set<string>(seenIds)
+const updatedSeenIdsSet = new Set<string>(seenIds)
 
 const baseUrl = new URL('https://jobs.apple.com')
 const searchUrl = new URL('/en-us/search', baseUrl)
@@ -20,7 +21,7 @@ const params = new URLSearchParams({
 
 const jobs: Job[] = []
 
-parent: for (let page = 1; ; page++) {
+parent: for (let page = 1; page < 3; page++) {
   searchUrl.search = params.toString()
   searchUrl.searchParams.set('page', page.toString())
 
@@ -35,9 +36,8 @@ parent: for (let page = 1; ; page++) {
     })
     .map(it => {
       const url = new URL(it.href, baseUrl)
-      const id = Number(url.pathname.split('/').at(3))
       return {
-        id,
+        id: String(url.pathname.split('/').at(3)),
         title: it.textContent || '',
         url
       } satisfies Job
@@ -48,6 +48,8 @@ parent: for (let page = 1; ; page++) {
       break parent
     }
     updatedSeenIdsSet.add(candidate.id)
+    await setTimeout(1000)
+    console.log({ GETTING: candidate.title, URL: candidate.url.href })
     const page = await fetchHtmlDocument(candidate.url)
     if (!checkKeywords(page.body.textContent, apple.keywords.description)) {
       continue

@@ -1,28 +1,28 @@
-name: Cron
-
-on:
-  schedule:
-    - cron: '0 23 * * *'
-  workflow_dispatch:
-
-jobs:
-  main:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.head_ref }}
-      - run: echo '${{ toJson(secrets) }}' | jq -r 'to_entries | map("\(.key)=\(.value)") | .[]' > .env
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 'latest'
-          cache: 'pnpm'
-      - run: pnpm install
-      - run: pnpm start
-      - run: pnpm check
-      - uses: stefanzweifel/git-auto-commit-action@v5
-        with:
-          commit_message: "chore(cron): update"
+#name: Cron
+#
+#on:
+#  schedule:
+#    - cron: '0 23 * * *'
+#  workflow_dispatch:
+#
+#jobs:
+#  main:
+#    runs-on: ubuntu-latest
+#    permissions:
+#      contents: write
+#    steps:
+#      - uses: actions/checkout@v4
+#        with:
+#          ref: ${{ github.head_ref }}
+#      - run: echo '${{ toJson(secrets) }}' | jq -r 'to_entries | map("\(.key)=\(.value)") | .[]' > .env
+#      - uses: pnpm/action-setup@v4
+#      - uses: actions/setup-node@v4
+#        with:
+#          node-version: 'latest'
+#          cache: 'pnpm'
+#      - run: pnpm install
+#      - run: pnpm start
+#      - run: pnpm check
+#      - uses: stefanzweifel/git-auto-commit-action@v5
+#        with:
+#          commit_message: "chore(cron): update"

@@ -1,5 +1,5 @@
 export interface Job {
-  readonly id: number
+  readonly id: string
   readonly title: string
   readonly url: URL
 }
